@@ -1,0 +1,9 @@
+﻿{
+  "success": true,
+  "timestamp": 1530528847,
+  "base": "AUD",
+  "date": "2000-01-01",
+  "rates": {
+    "USD": 0.5
+  }
+}
