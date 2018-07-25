@@ -20,14 +20,14 @@ namespace ExchangeService.Models.RedisCache
     {
       if (cache == null)
         cache = Connection.GetDatabase();
-      return await Task.Run(() => cache.Get(CacheKey));
+      return await Task.Run(() => cache.Get(CacheKey)).ConfigureAwait(false);
     }
 
     public async Task Put(object value, string CacheKey)
     {
       if (cache == null)
         cache = Connection.GetDatabase();
-      await Task.Run(() => cache.Set(CacheKey, value, new TimeSpan(1, 0, 0, 0)));
+      await Task.Run(() => cache.Set(CacheKey, value, new TimeSpan(1, 0, 0, 0))).ConfigureAwait(false);
     }
   }
 }

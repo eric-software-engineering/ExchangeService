@@ -16,7 +16,7 @@ namespace ExchangeService.Models
         return await (from b in dm.ExchangeRates
                       where b.baseCurrency == baseCurrency && b.targetCurrency == targetCurrency
                       orderby b.baseCurrency descending
-                      select b).FirstOrDefaultAsync();
+                      select b).FirstOrDefaultAsync().ConfigureAwait(false);
       }
     }
 
@@ -25,7 +25,7 @@ namespace ExchangeService.Models
       using (var dm = new DataModel())
       {
         dm.ExchangeRates.AddRange(rates);
-        await dm.SaveChangesAsync();
+        await dm.SaveChangesAsync().ConfigureAwait(false);
       }
     }
 

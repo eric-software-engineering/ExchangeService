@@ -36,7 +36,7 @@ namespace ExchangeService.Models
 
         //Defensive programming
         response.EnsureSuccessStatusCode();
-        var responseBody = await response.Content.ReadAsStringAsync();
+        var responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
         var data = Newtonsoft.Json.JsonConvert.DeserializeObject<Conversions>(responseBody);
         var rates = data.rates;
@@ -55,7 +55,7 @@ namespace ExchangeService.Models
         result.AddRange(ConvertedRates);
       });
 
-      await Task.WhenAll(tasks);
+      await Task.WhenAll(tasks).ConfigureAwait(false);
       return result.ToList();
     }
 

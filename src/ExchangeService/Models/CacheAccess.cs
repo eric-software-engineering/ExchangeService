@@ -16,7 +16,7 @@ namespace ExchangeService.Models
       ExchangeRate result = null;
 
       // C#7 pattern matching
-      if (await cacheRep.Get("ExchangeRate") is List<ExchangeRate> cache)
+      if (await cacheRep.Get("ExchangeRate").ConfigureAwait(false) is List<ExchangeRate> cache)
         result = cache.Where(x => x.baseCurrency == baseCurrency && x.targetCurrency == targetCurrency && x.timestamp > DateTime.Now.AddMinutes(-10)).FirstOrDefault();
 
       return result;
@@ -25,7 +25,7 @@ namespace ExchangeService.Models
     public async Task InsertData(List<ExchangeRate> rates)
     {
       var cacheRep = new AzureRedisControllerCache();
-      await cacheRep.Put(rates, "ExchangeRate");
+      await cacheRep.Put(rates, "ExchangeRate").ConfigureAwait(false);
     }
 
     public Task<List<ExchangeRate>> GetAllData()

@@ -82,7 +82,7 @@ namespace ExchangeService.Test
     [When(@"the Controller is called")]
     public async void WhenTheControllerIsCalled()
     {
-      _result = await _appController.GetExchangeRate(_baseCurrency, _targetCurrency);
+      _result = await _appController.GetExchangeRate(_baseCurrency, _targetCurrency).ConfigureAwait(false);
     }
 
     // Assert

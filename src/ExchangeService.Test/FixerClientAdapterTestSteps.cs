@@ -60,7 +60,7 @@ namespace ExchangeService.Test
     [When(@"the API is called")]
     public async void WhenTheAPIIsCalled()
     {
-      _result = await _fixerClientAdapter.GetAllData();
+      _result = await _fixerClientAdapter.GetAllData().ConfigureAwait(false);
     }
 
     // Assert 

@@ -39,7 +39,7 @@ namespace ExchangeService.Controllers
         if (result == null)
         {
           // Asynchronously wait to enter the Semaphore. If no-one has been granted access to the Semaphore, code execution will proceed, otherwise this thread waits here until the semaphore is released.
-          await semaphoreSlim.WaitAsync();
+          await semaphoreSlim.WaitAsync().ConfigureAwait(false);
 
           // Maybe another thread fetched the cache in the meantime. Returning it.
           result = await _cacheRepository.GetData(baseCurrency, targetCurrency).ConfigureAwait(false);
@@ -47,7 +47,7 @@ namespace ExchangeService.Controllers
             return Ok(result.ToViewModel());
 
           // This is the first thread to find an empty cache. Refilling it.
-          var value = await _apiClient.GetAllData();
+          var value = await _apiClient.GetAllData().ConfigureAwait(false);
           result = value.Where(x => x.baseCurrency == baseCurrency && x.targetCurrency == targetCurrency).FirstOrDefault();
 
           var t1 = _cacheRepository.InsertData(value);
@@ -62,7 +62,7 @@ namespace ExchangeService.Controllers
       {
         e.TraceException();
         // Something didn't work, either the call to the fixer api or the Redis cache. Getting the latest result from the db
-        var result = await _dbRepository.GetData(baseCurrency, targetCurrency);
+        var result = await _dbRepository.GetData(baseCurrency, targetCurrency).ConfigureAwait(false);
         return Ok(result.ToViewModel());
       }
       finally
